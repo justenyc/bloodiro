@@ -13,13 +13,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool m_grounded;
     [SerializeField] float m_moveSpeed;
     [SerializeField] AnimationCurve m_moveAcceleration;
+    [SerializeField] LayerMask m_groundedLayers;
+    [SerializeField] LayerMask m_parkourLayers;
 
     [Header("Debug")]
     [SerializeField] Vector2 m_moveVector;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hi");
+
     }
 
     // Update is called once per frame
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
     {
         ApplyGravity();
         Move();
+        CheckForGround();
+        ParkourCheck();
     }
 
     #region Logic
@@ -46,6 +50,26 @@ public class PlayerController : MonoBehaviour
         m_characterController.Move(moveVector);
     }
 
+    void CheckForGround()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, -Vector3.up , Color.magenta);
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, m_groundedLayers))
+        {
+            Debug.Log(hit.collider.name);
+        }
+    }
+
+    void ParkourCheck()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, Vector3.right, Color.cyan);
+        if (Physics.Raycast(transform.position, Vector3.right, out hit, m_parkourLayers))
+        {
+            Debug.Log(hit.collider.name);
+        }
+    }
+
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         
@@ -63,6 +87,54 @@ public class PlayerController : MonoBehaviour
         if(ctx.performed)
         {
             Debug.Log("OnSlash() called");
+        }
+    }
+
+    public void ThrustInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnThrust() called");
+        }
+    }
+
+    public void DodgeInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnDodge() called");
+        }
+    }
+
+    public void InteractInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnInteract() called");
+        }
+    }
+
+    public void GunInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnGun() called");
+        }
+    }
+
+    public void ParryInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnParry() called");
+        }
+    }
+
+    public void HealInputListener(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("OnHeal() called");
         }
     }
     #endregion

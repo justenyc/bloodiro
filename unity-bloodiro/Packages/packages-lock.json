@@ -1,13 +1,5 @@
 {
   "dependencies": {
-    "com.danielmansson.mathematics.fixedpoint": {
-      "version": "file:Unity.Mathematics.FixedPoint",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.mathematics": "1.1.0"
-      }
-    },
     "com.unity.2d.animation": {
       "version": "5.0.4",
       "depth": 0,
