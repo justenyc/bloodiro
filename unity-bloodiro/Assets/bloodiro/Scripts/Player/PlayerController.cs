@@ -9,13 +9,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController m_characterController;
 
     [Header("Properties")]
-    [SerializeField] bool applyGravity;
-    [SerializeField] bool m_grounded;
+    [SerializeField] bool m_applyGravity;
+    [SerializeField] float m_gravity;
     [SerializeField] float m_moveSpeed;
     [SerializeField] float m_parkourDistance;
     [SerializeField] AnimationCurve m_moveAcceleration;
     [SerializeField] LayerMask m_groundedLayers;
     [SerializeField] LayerMask m_parkourLayers;
+
+    [Header("States")]
+    [SerializeField] bool m_grounded;
+    [SerializeField] bool m_nearLadder;
 
     [Header("Debug")]
     [SerializeField] Vector2 m_moveVector;
@@ -36,26 +40,32 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Logic
-    void ApplyGravity()
+    float ApplyGravity()
     {
-        if(!applyGravity)
+        if(!m_applyGravity)
         {
-            return;
+            return 0;
         }
-        Vector3 velocity = new Vector3(0, -9.81f, 0);
-        m_characterController.Move(velocity * Time.fixedDeltaTime);
+        return m_gravity;
     }
 
     void Move()
     {
-        Vector2 moveVector = new Vector2(m_moveVector.x * m_moveSpeed * Time.fixedDeltaTime, 0);
+        Vector2 moveVector;
+        if (m_nearLadder)
+        {
+            moveVector = new Vector2(m_moveVector.x * m_moveSpeed * Time.fixedDeltaTime, m_moveVector.y * m_moveSpeed * Time.fixedDeltaTime);
+            m_characterController.Move(moveVector);
+            return;
+        }
+        moveVector = new Vector2(m_moveVector.x * m_moveSpeed * Time.fixedDeltaTime, ApplyGravity() * Time.fixedDeltaTime);
         m_characterController.Move(moveVector);
     }
 
     void CheckForGround()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position, -Vector3.up , Color.magenta);
+        //Debug.DrawRay(transform.position, -Vector3.up , Color.magenta);
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.6f, m_groundedLayers))
         {
             m_grounded = true;
@@ -67,17 +77,47 @@ public class PlayerController : MonoBehaviour
     void ParkourCheck()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position, transform.right, Color.cyan);
-        if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourDistance, m_parkourLayers))
+        if (m_grounded)
         {
-            Debug.Log(hit.collider.name);
-            StartCoroutine(DelayMoveForParkourTest(hit.point));
+            //Debug.DrawRay(transform.position, transform.up, Color.cyan);
+            if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourDistance, m_parkourLayers))
+            {
+                Debug.Log(hit.collider.name);
+                StartCoroutine(DelayMoveForParkourTest(hit.point));
+            }
+        }
+
+        if(m_nearLadder)
+        {
+            if (Physics.Raycast(transform.position, transform.up, out hit, m_parkourDistance, m_parkourLayers))
+            {
+                Debug.Log(hit.collider.name);
+                StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
+            }
         }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        m_nearLadder = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Reset();
+    }
+
+    private void Reset()
+    {
+        m_nearLadder = false;
+        m_applyGravity = true;
+        m_characterController.enabled = true;
+        this.enabled = true;
     }
     #endregion
 
@@ -156,10 +196,13 @@ public class PlayerController : MonoBehaviour
     #region Temp stuff
     IEnumerator DelayMoveForParkourTest(Vector3 basePosition)
     {
+        m_characterController.enabled = false;
         this.enabled = false;
+
         yield return new WaitForSeconds(m_parkourTime);
-        m_characterController.Move((basePosition + Vector3.up) - transform.position);
-        this.enabled = true;
+
+        transform.position = basePosition + Vector3.up;
+        Reset();
     }
     #endregion
 }
