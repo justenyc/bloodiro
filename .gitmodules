@@ -1,0 +1,3 @@
+[submodule "Unity.Mathematics.FixedPoint"]
+	path = Unity.Mathematics.FixedPoint
+	url = https://github.com/danielmansson/Unity.Mathematics.FixedPoint.git
