@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] Vector2 m_moveVector;
+    [SerializeField] float m_parkourTime = 0.5f;
+
+    private void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -58,10 +64,11 @@ public class PlayerController : MonoBehaviour
     void ParkourCheck()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position, Vector3.right, Color.cyan);
-        if (Physics.Raycast(transform.position, Vector3.right, out hit, m_parkourLayers))
+        Debug.DrawRay(transform.position, transform.right, Color.cyan);
+        if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourLayers))
         {
             Debug.Log(hit.collider.name);
+            StartCoroutine(DelayMoveForParkourTest(hit.collider.transform.position));
         }
     }
 
@@ -75,12 +82,21 @@ public class PlayerController : MonoBehaviour
     public void MoveInputListener(InputAction.CallbackContext ctx)
     {
         m_moveVector = ctx.ReadValue<Vector2>();
+        if(m_moveVector.x > 0) 
+        { 
+            transform.rotation = Quaternion.Euler(Vector3.zero); 
+        }
+        else if(m_moveVector.x < 0) 
+        { 
+            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0)); 
+        }
     }
 
     public void SlashInputListener(InputAction.CallbackContext ctx)
     {
         if(ctx.performed)
         {
+            transform.position = Vector3.zero;
             Debug.Log("OnSlash() called");
         }
     }
@@ -131,6 +147,16 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("OnHeal() called");
         }
+    }
+    #endregion
+
+    #region Temp stuff
+    IEnumerator DelayMoveForParkourTest(Vector3 basePosition)
+    {
+        this.enabled = false;
+        yield return new WaitForSeconds(m_parkourTime);
+        m_characterController.Move((basePosition + Vector3.up) - transform.position);
+        this.enabled = true;
     }
     #endregion
 }
