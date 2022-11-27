@@ -18,11 +18,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] Vector2 m_moveVector;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void FixedUpdate()
