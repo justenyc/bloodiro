@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool applyGravity;
     [SerializeField] bool m_grounded;
     [SerializeField] float m_moveSpeed;
+    [SerializeField] float m_parkourDistance;
     [SerializeField] AnimationCurve m_moveAcceleration;
     [SerializeField] LayerMask m_groundedLayers;
     [SerializeField] LayerMask m_parkourLayers;
@@ -55,20 +56,22 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Debug.DrawRay(transform.position, -Vector3.up , Color.magenta);
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, m_groundedLayers))
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.6f, m_groundedLayers))
         {
-            Debug.Log(hit.collider.name);
+            m_grounded = true;
+            return;
         }
+        m_grounded = false;
     }
 
     void ParkourCheck()
     {
         RaycastHit hit;
         Debug.DrawRay(transform.position, transform.right, Color.cyan);
-        if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourLayers))
+        if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourDistance, m_parkourLayers))
         {
             Debug.Log(hit.collider.name);
-            StartCoroutine(DelayMoveForParkourTest(hit.collider.transform.position));
+            StartCoroutine(DelayMoveForParkourTest(hit.point));
         }
     }
 
