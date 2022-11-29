@@ -8,27 +8,46 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] CharacterController m_characterController;
 
-    [Header("Properties")]
-    [SerializeField] bool m_applyGravity;
-    [SerializeField] float m_gravity;
-    [SerializeField] float m_moveSpeed;
-    [SerializeField] float m_parkourDistance;
-    [SerializeField] AnimationCurve m_moveAcceleration;
-    [SerializeField] LayerMask m_groundedLayers;
-    [SerializeField] LayerMask m_parkourLayers;
-
-    [Header("States")]
-    [SerializeField] bool m_grounded;
-    [SerializeField] bool m_nearLadder;
-
-    [Header("Debug")]
-    [SerializeField] Vector2 m_moveVector;
-    [SerializeField] float m_parkourTime = 0.5f;
-
-    private void Start()
+    [System.Serializable]
+    class Properties
     {
-        
+        public bool applyGravity = true;
+        public float gravity = -9.81f;
+        public float terminalVelocity = -2f;
+        public float moveSpeed = 10;
+        public float parkourDistance = 0.6f;
+        public LayerMask groundedLayers;
+        public LayerMask parkourLayers;
     }
+    [SerializeField] Properties m_properties;
+
+    [System.Serializable]
+    class PropertyCurves
+    {
+        public AnimationCurve gravityVertCurve;
+        public AnimationCurve gravityHorzCurve;
+        public AnimationCurve moveAcceleration;
+    }
+    [SerializeField] PropertyCurves m_propertyCurves;
+
+    [System.Serializable]
+    class States
+    {
+        public bool grounded;
+        public bool nearLadder;
+    }
+    [SerializeField] States m_states;
+
+    [System.Serializable]
+    class Modifiers
+    {
+        public Vector2 moveVector;
+        public float parkourTime = 0.5f;
+        public float moveAccelerationTime;
+        public float gravityVertCurveTime;
+        public float gravityHorzCurveTime;
+    }
+    [SerializeField] Modifiers m_modifiers;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -42,54 +61,105 @@ public class PlayerController : MonoBehaviour
     #region Logic
     float ApplyGravity()
     {
-        if(!m_applyGravity)
+        if(!m_properties.applyGravity)
         {
             return 0;
         }
-        return m_gravity;
+        return m_properties.gravity;
+    }
+
+    void GroundedMovementCurveLerp()
+    {
+        if (Mathf.Abs(m_modifiers.moveVector.x) > 0)
+        {
+            m_modifiers.moveAccelerationTime += Time.fixedDeltaTime;
+            m_modifiers.moveAccelerationTime = Mathf.Clamp01(m_modifiers.moveAccelerationTime);
+        }
+        else
+        {
+            m_modifiers.moveAccelerationTime = 0;
+        }
+    }
+
+    void GravityCurveLerp()
+    {
+        if (!m_states.grounded)
+        {
+            m_modifiers.gravityVertCurveTime += Time.fixedDeltaTime;
+            m_modifiers.gravityVertCurveTime = Mathf.Clamp01(m_modifiers.gravityVertCurveTime);
+            
+            m_modifiers.gravityHorzCurveTime += Time.fixedDeltaTime;
+            m_modifiers.gravityHorzCurveTime = Mathf.Clamp01(m_modifiers.gravityHorzCurveTime);
+        }
+        else
+        {
+            m_modifiers.gravityVertCurveTime = 0;
+            m_modifiers.gravityHorzCurveTime = 0;
+        }
     }
 
     void Move()
     {
-        Vector2 moveVector;
-        if (m_nearLadder)
+        GroundedMovementCurveLerp();
+        GravityCurveLerp();
+
+       Vector2 moveVector;
+        if(m_states.nearLadder)
         {
-            moveVector = new Vector2(m_moveVector.x * m_moveSpeed * Time.fixedDeltaTime, m_moveVector.y * m_moveSpeed * Time.fixedDeltaTime);
+            moveVector = new Vector2(
+                m_modifiers.moveVector.x * m_properties.moveSpeed * Time.fixedDeltaTime * m_propertyCurves.moveAcceleration.Evaluate(m_modifiers.moveAccelerationTime), 
+                m_modifiers.moveVector.y * m_properties.moveSpeed * Time.fixedDeltaTime);
             m_characterController.Move(moveVector);
             return;
         }
-        moveVector = new Vector2(m_moveVector.x * m_moveSpeed * Time.fixedDeltaTime, ApplyGravity() * Time.fixedDeltaTime);
-        m_characterController.Move(moveVector);
+
+        if (m_states.grounded)
+        {
+            moveVector = new Vector2(
+                m_modifiers.moveVector.x * m_properties.moveSpeed * Time.fixedDeltaTime * m_propertyCurves.moveAcceleration.Evaluate(m_modifiers.moveAccelerationTime),
+                ApplyGravity() * Time.fixedDeltaTime);
+            m_characterController.Move(moveVector);
+        }
+        else
+        {
+            moveVector = new Vector2(
+                m_characterController.velocity.x * m_propertyCurves.gravityHorzCurve.Evaluate(m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime,
+                (ApplyGravity() + m_properties.terminalVelocity * m_propertyCurves.gravityVertCurve.Evaluate(m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
+            m_characterController.Move(moveVector);
+
+            Debug.Log(m_characterController.velocity.x * m_propertyCurves.gravityHorzCurve.Evaluate(m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime);
+            Debug.Log((ApplyGravity() + m_properties.terminalVelocity * m_propertyCurves.gravityVertCurve.Evaluate(m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
+        }
     }
 
     void CheckForGround()
     {
         RaycastHit hit;
-        //Debug.DrawRay(transform.position, -Vector3.up , Color.magenta);
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.6f, m_groundedLayers))
+        
+        if (Physics.SphereCast(transform.position + transform.up, 1, -Vector3.up, out hit, 0.6f))
         {
-            m_grounded = true;
+            m_states.grounded = true;
             return;
         }
-        m_grounded = false;
+        m_states.grounded = false;
     }
 
     void ParkourCheck()
     {
         RaycastHit hit;
-        if (m_grounded)
+        if (m_states.grounded)
         {
             //Debug.DrawRay(transform.position, transform.up, Color.cyan);
-            if (Physics.Raycast(transform.position, transform.right, out hit, m_parkourDistance, m_parkourLayers))
+            if (Physics.Raycast(transform.position, transform.right, out hit, m_properties.parkourDistance, m_properties.parkourLayers))
             {
                 Debug.Log(hit.collider.name);
                 StartCoroutine(DelayMoveForParkourTest(hit.point));
             }
         }
 
-        if(m_nearLadder)
+        if (m_states.nearLadder)
         {
-            if (Physics.Raycast(transform.position, transform.up, out hit, m_parkourDistance, m_parkourLayers))
+            if (Physics.Raycast(transform.position, transform.up, out hit, m_properties.parkourDistance, m_properties.parkourLayers))
             {
                 Debug.Log(hit.collider.name);
                 StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
@@ -104,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        m_nearLadder = true;
+        m_states.nearLadder = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -114,8 +184,8 @@ public class PlayerController : MonoBehaviour
 
     private void Reset()
     {
-        m_nearLadder = false;
-        m_applyGravity = true;
+        m_states.nearLadder = false;
+        m_properties.applyGravity = true;
         m_characterController.enabled = true;
         this.enabled = true;
     }
@@ -124,12 +194,12 @@ public class PlayerController : MonoBehaviour
     #region Player Input Listeners
     public void MoveInputListener(InputAction.CallbackContext ctx)
     {
-        m_moveVector = ctx.ReadValue<Vector2>();
-        if(m_moveVector.x > 0) 
+        m_modifiers.moveVector = ctx.ReadValue<Vector2>();
+        if(m_modifiers.moveVector.x > 0) 
         { 
             transform.rotation = Quaternion.Euler(Vector3.zero); 
         }
-        else if(m_moveVector.x < 0) 
+        else if(m_modifiers.moveVector.x < 0) 
         { 
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0)); 
         }
@@ -137,9 +207,8 @@ public class PlayerController : MonoBehaviour
 
     public void SlashInputListener(InputAction.CallbackContext ctx)
     {
-        if(ctx.performed)
+        if (ctx.performed)
         {
-            transform.position = Vector3.zero;
             Debug.Log("OnSlash() called");
         }
     }
@@ -199,7 +268,7 @@ public class PlayerController : MonoBehaviour
         m_characterController.enabled = false;
         this.enabled = false;
 
-        yield return new WaitForSeconds(m_parkourTime);
+        yield return new WaitForSeconds(m_modifiers.parkourTime);
 
         transform.position = basePosition + Vector3.up;
         Reset();
