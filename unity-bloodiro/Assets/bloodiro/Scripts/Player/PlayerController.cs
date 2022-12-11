@@ -3,275 +3,191 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+namespace Quickjam.Player
 {
-    [Header("References")]
-    [SerializeField] CharacterController m_characterController;
-
-    [System.Serializable]
-    class Properties
+    public class PlayerController : MonoBehaviour
     {
-        public bool applyGravity = true;
-        public float gravity = -9.81f;
-        public float terminalVelocity = -2f;
-        public float moveSpeed = 10;
-        public float parkourDistance = 0.6f;
-        public LayerMask groundedLayers;
-        public LayerMask parkourLayers;
-    }
-    [SerializeField] Properties m_properties;
+        [Header("References")]
+        public CharacterController m_characterController;
+        public string m_currentStateName;
+        public Animator m_playerAnimator;
+        public Properties m_properties;
+        public PropertyCurves m_propertyCurves;
+        public States m_states;
+        public Modifiers m_modifiers;
 
-    [System.Serializable]
-    class PropertyCurves
-    {
-        public AnimationCurve gravityVertCurve;
-        public AnimationCurve gravityHorzCurve;
-        public AnimationCurve moveAcceleration;
-    }
-    [SerializeField] PropertyCurves m_propertyCurves;
+        PlayerState m_currentState;
 
-    [System.Serializable]
-    class States
-    {
-        public bool grounded;
-        public bool nearLadder;
-    }
-    [SerializeField] States m_states;
-
-    [System.Serializable]
-    class Modifiers
-    {
-        public Vector2 moveVector;
-        public float parkourTime = 0.5f;
-        public float moveAccelerationTime;
-        public float gravityVertCurveTime;
-        public float gravityHorzCurveTime;
-    }
-    [SerializeField] Modifiers m_modifiers;
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        ApplyGravity();
-        Move();
-        CheckForGround();
-        ParkourCheck();
-    }
-
-    #region Logic
-    float ApplyGravity()
-    {
-        if(!m_properties.applyGravity)
+        #region Variable Class Groups
+        [System.Serializable]
+        public class Properties
         {
-            return 0;
+            public bool applyGravity = true;
+            public float gravity = -9.81f;
+            public float terminalVelocity = -2f;
+            public float moveSpeed = 10;
+            public float parkourDistance = 0.6f;
+            public LayerMask groundedLayers;
+            public LayerMask parkourLayers;
         }
-        return m_properties.gravity;
-    }
-
-    void GroundedMovementCurveLerp()
-    {
-        if (Mathf.Abs(m_modifiers.moveVector.x) > 0)
+        [System.Serializable]
+        public class PropertyCurves
         {
-            m_modifiers.moveAccelerationTime += Time.fixedDeltaTime;
-            m_modifiers.moveAccelerationTime = Mathf.Clamp01(m_modifiers.moveAccelerationTime);
+            public float gravityVertCurveLerpSpeed = 1;
+            public AnimationCurve gravityVertCurve;
+            public float gravityHorzCurveLerpSpeed = 1;
+            public AnimationCurve gravityHorzCurve;
+            public float moveAccelerationLerpSpeed = 1;
+            public AnimationCurve moveAcceleration;
         }
-        else
+        [System.Serializable]
+        public class States
         {
-            m_modifiers.moveAccelerationTime = 0;
+            public bool grounded;
+            public bool nearLadder;
         }
-    }
-
-    void GravityCurveLerp()
-    {
-        if (!m_states.grounded)
+        [System.Serializable]
+        public class Modifiers
         {
-            m_modifiers.gravityVertCurveTime += Time.fixedDeltaTime;
-            m_modifiers.gravityVertCurveTime = Mathf.Clamp01(m_modifiers.gravityVertCurveTime);
-            
-            m_modifiers.gravityHorzCurveTime += Time.fixedDeltaTime;
-            m_modifiers.gravityHorzCurveTime = Mathf.Clamp01(m_modifiers.gravityHorzCurveTime);
+            public Vector2 moveVector;
+            public float parkourTime = 0.5f;
+            public float moveAccelerationTime;
+            public float gravityVertCurveTime;
+            public float gravityHorzCurveTime;
         }
-        else
-        {
-            m_modifiers.gravityVertCurveTime = 0;
-            m_modifiers.gravityHorzCurveTime = 0;
-        }
-    }
+        #endregion
 
-    void Move()
-    {
-        GroundedMovementCurveLerp();
-        GravityCurveLerp();
-
-       Vector2 moveVector;
-        if(m_states.nearLadder)
+        private void Start()
         {
-            moveVector = new Vector2(
-                m_modifiers.moveVector.x * m_properties.moveSpeed * Time.fixedDeltaTime * m_propertyCurves.moveAcceleration.Evaluate(m_modifiers.moveAccelerationTime), 
-                m_modifiers.moveVector.y * m_properties.moveSpeed * Time.fixedDeltaTime);
-            m_characterController.Move(moveVector);
-            return;
+            m_currentState = new PlayerFreeMovementState(this);
         }
 
-        if (m_states.grounded)
+        // Update is called once per frame
+        void FixedUpdate()
         {
-            moveVector = new Vector2(
-                m_modifiers.moveVector.x * m_properties.moveSpeed * Time.fixedDeltaTime * m_propertyCurves.moveAcceleration.Evaluate(m_modifiers.moveAccelerationTime),
-                ApplyGravity() * Time.fixedDeltaTime);
-            m_characterController.Move(moveVector);
+            CheckForGround();
+            m_currentState.StateFixedUpdate();
         }
-        else
-        {
-            moveVector = new Vector2(
-                m_characterController.velocity.x * m_propertyCurves.gravityHorzCurve.Evaluate(m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime,
-                (ApplyGravity() + m_properties.terminalVelocity * m_propertyCurves.gravityVertCurve.Evaluate(m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
-            m_characterController.Move(moveVector);
 
-            Debug.Log(m_characterController.velocity.x * m_propertyCurves.gravityHorzCurve.Evaluate(m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime);
-            Debug.Log((ApplyGravity() + m_properties.terminalVelocity * m_propertyCurves.gravityVertCurve.Evaluate(m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
+        #region Events
+        void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            m_currentState.OnStateControllerColliderHit(hit);
         }
-    }
 
-    void CheckForGround()
-    {
-        RaycastHit hit;
-        
-        if (Physics.SphereCast(transform.position + transform.up, 1, -Vector3.up, out hit, 0.6f))
+        private void OnTriggerEnter(Collider other)
         {
-            m_states.grounded = true;
-            return;
+            m_states.nearLadder = true;
         }
-        m_states.grounded = false;
-    }
 
-    void ParkourCheck()
-    {
-        RaycastHit hit;
-        if (m_states.grounded)
+        private void OnTriggerExit(Collider other)
         {
-            //Debug.DrawRay(transform.position, transform.up, Color.cyan);
-            if (Physics.Raycast(transform.position, transform.right, out hit, m_properties.parkourDistance, m_properties.parkourLayers))
+            Reset();
+        }
+        #endregion
+
+        #region Public Functions
+        public void Reset() //WIP
+        {
+            m_states.nearLadder = false;
+            m_properties.applyGravity = true;
+            m_characterController.enabled = true;
+            this.enabled = true;
+        }
+
+        public void SetState(PlayerState newState)
+        {
+            m_currentState = newState;
+        }
+        #endregion
+
+        void CheckForGround()
+        {
+            RaycastHit hit;
+
+            if (Physics.SphereCast(transform.position + transform.up, 1, -Vector3.up, out hit, 0.6f))
             {
-                Debug.Log(hit.collider.name);
-                StartCoroutine(DelayMoveForParkourTest(hit.point));
+                m_states.grounded = true;
+                return;
+            }
+            m_states.grounded = false;
+        }
+
+        #region Player Input Listeners
+        public void MoveInputListener(InputAction.CallbackContext ctx)
+        {
+            m_currentState.GetType().GetMethod("StateMoveInputListener")?.Invoke(m_currentState, new object[] { ctx });
+        }
+
+        public void SlashInputListener(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                Debug.Log("OnSlash() called");
+                m_currentState.GetType().GetMethod("StateSlash")?.Invoke(m_currentState, new object[] { ctx });
             }
         }
 
-        if (m_states.nearLadder)
+        public void ThrustInputListener(InputAction.CallbackContext ctx)
         {
-            if (Physics.Raycast(transform.position, transform.up, out hit, m_properties.parkourDistance, m_properties.parkourLayers))
+            if (ctx.performed)
             {
-                Debug.Log(hit.collider.name);
-                StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
+                Debug.Log("OnThrust() called");
             }
         }
-    }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        m_states.nearLadder = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Reset();
-    }
-
-    private void Reset()
-    {
-        m_states.nearLadder = false;
-        m_properties.applyGravity = true;
-        m_characterController.enabled = true;
-        this.enabled = true;
-    }
-    #endregion
-
-    #region Player Input Listeners
-    public void MoveInputListener(InputAction.CallbackContext ctx)
-    {
-        m_modifiers.moveVector = ctx.ReadValue<Vector2>();
-        if(m_modifiers.moveVector.x > 0) 
-        { 
-            transform.rotation = Quaternion.Euler(Vector3.zero); 
-        }
-        else if(m_modifiers.moveVector.x < 0) 
-        { 
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0)); 
-        }
-    }
-
-    public void SlashInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        public void DodgeInputListener(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnSlash() called");
+            if (ctx.performed)
+            {
+                Debug.Log("OnDodge() called");
+            }
         }
-    }
 
-    public void ThrustInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        public void InteractInputListener(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnThrust() called");
+            if (ctx.performed)
+            {
+                Debug.Log("OnInteract() called");
+            }
         }
-    }
 
-    public void DodgeInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        public void GunInputListener(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnDodge() called");
+            if (ctx.performed)
+            {
+                Debug.Log("OnGun() called");
+            }
         }
-    }
 
-    public void InteractInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        public void ParryInputListener(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnInteract() called");
+            if (ctx.performed)
+            {
+                Debug.Log("OnParry() called");
+            }
         }
-    }
 
-    public void GunInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        public void HealInputListener(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnGun() called");
+            if (ctx.performed)
+            {
+                Debug.Log("OnHeal() called");
+            }
         }
-    }
+        #endregion
 
-    public void ParryInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        #region Temp stuff
+        IEnumerator DelayMoveForParkourTest(Vector3 basePosition)
         {
-            Debug.Log("OnParry() called");
+            m_characterController.enabled = false;
+            this.enabled = false;
+
+            yield return new WaitForSeconds(m_modifiers.parkourTime);
+
+            transform.position = basePosition + Vector3.up;
+            Reset();
         }
+        #endregion
     }
-
-    public void HealInputListener(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            Debug.Log("OnHeal() called");
-        }
-    }
-    #endregion
-
-    #region Temp stuff
-    IEnumerator DelayMoveForParkourTest(Vector3 basePosition)
-    {
-        m_characterController.enabled = false;
-        this.enabled = false;
-
-        yield return new WaitForSeconds(m_modifiers.parkourTime);
-
-        transform.position = basePosition + Vector3.up;
-        Reset();
-    }
-    #endregion
 }
