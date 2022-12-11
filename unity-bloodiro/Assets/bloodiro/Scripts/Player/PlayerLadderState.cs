@@ -25,6 +25,7 @@ namespace Quickjam.Player
         public override void StateFixedUpdate()
         {
             Move();
+            ParkourCheck();
         }
 
         void Move()
@@ -41,6 +42,29 @@ namespace Quickjam.Player
                 m_manager.m_playerAnimator.SetBool("OnLadder", false);
                 m_manager.SetState(new PlayerFreeMovementState(m_manager));
             }
+        }
+
+        void ParkourCheck()
+        {
+            RaycastHit hit;
+            if (m_manager.m_states.nearLadder)
+            {
+                if (Physics.Raycast(m_manager.transform.position, m_manager.transform.up, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
+                {
+                    m_manager.StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
+                }
+            }
+        }
+
+        IEnumerator DelayMoveForParkourTest(Vector3 basePosition)
+        {
+            m_manager.m_characterController.enabled = false;
+            m_manager.enabled = false;
+
+            yield return new WaitForSeconds(m_manager.m_modifiers.parkourTime);
+
+            m_manager.transform.position = basePosition + Vector3.up;
+            m_manager.Reset();
         }
 
         public void StateMoveInputListener(InputAction.CallbackContext ctx)
