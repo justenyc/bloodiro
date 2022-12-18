@@ -160,6 +160,11 @@ namespace Quickjam.Player
 
             AnimationCheck();
         }
+
+        public void StateSlashInputListener(InputAction.CallbackContext ctx)
+        {
+            
+        }
         #endregion
 
         #region Temp Debug
