@@ -28,6 +28,12 @@ ModelImporter:
       74: -6616099623474337305
     second: SwordsmanArmature.001|Jump
   - first:
+      74: -8266288343871722035
+    second: SwordsmanArmature.001|Ladder
+  - first:
+      74: 820321845854166027
+    second: SwordsmanArmature.001|LadderClimb
+  - first:
       74: -2221891097330549211
     second: SwordsmanArmature.001|Land
   - first:
