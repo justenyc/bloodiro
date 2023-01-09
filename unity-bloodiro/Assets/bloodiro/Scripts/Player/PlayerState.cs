@@ -9,11 +9,8 @@ namespace Quickjam.Player
     {
         public string m_stateName { get; protected set; }
         public virtual void StateFixedUpdate() { }
-
         public virtual void OnStateControllerColliderHit(ControllerColliderHit hit) { }
-
         public virtual void OnStateTriggerEnter(Collider other) { }
-
         public virtual void OnStateTriggerExit(Collider other) { }
     }
 }

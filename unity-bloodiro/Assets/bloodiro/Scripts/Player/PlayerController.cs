@@ -15,6 +15,8 @@ namespace Quickjam.Player
         public PropertyCurves m_propertyCurves;
         public States m_states;
         public Modifiers m_modifiers;
+        public List<AttackData> m_attackDataList;
+        public Dictionary<string, AttackData> m_attackDataDict { get; private set; } = new Dictionary<string, AttackData>();
 
         PlayerState m_currentState;
 
@@ -60,6 +62,15 @@ namespace Quickjam.Player
         private void Start()
         {
             m_currentState = new PlayerFreeMovementState(this);
+            if (m_attackDataList.Count > 0) { PopulateAttackDataDict(m_attackDataList); }
+        }
+
+        void PopulateAttackDataDict(List<AttackData> attackDataList)
+        {
+            foreach(AttackData ad in m_attackDataList)
+            {
+                m_attackDataDict.Add(ad.id, ad);
+            }
         }
 
         // Update is called once per frame
@@ -124,7 +135,7 @@ namespace Quickjam.Player
             if (ctx.performed)
             {
                 Debug.Log("OnSlash() called");
-                m_currentState.GetType().GetMethod("StateSlash")?.Invoke(m_currentState, new object[] { ctx });
+                m_currentState.GetType().GetMethod("StateSlashInputListener")?.Invoke(m_currentState, new object[] { ctx });
             }
         }
 

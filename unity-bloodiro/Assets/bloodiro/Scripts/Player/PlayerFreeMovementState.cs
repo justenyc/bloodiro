@@ -105,9 +105,6 @@ namespace Quickjam.Player
                     m_manager.m_characterController.velocity.x * m_manager.m_propertyCurves.gravityHorzCurve.Evaluate(m_manager.m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime,
                     (ApplyGravity() + m_manager.m_properties.terminalVelocity * m_manager.m_propertyCurves.gravityVertCurve.Evaluate(m_manager.m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
                 m_manager.m_characterController.Move(moveVector);
-
-                //Debug.Log(m_manager.m_characterController.velocity.x * m_manager.m_propertyCurves.gravityHorzCurve.Evaluate(m_manager.m_modifiers.gravityHorzCurveTime) * Time.fixedDeltaTime);
-                //Debug.Log((ApplyGravity() + m_manager.m_properties.terminalVelocity * m_manager.m_propertyCurves.gravityVertCurve.Evaluate(m_manager.m_modifiers.gravityVertCurveTime)) * Time.fixedDeltaTime);
             }
         }
 
@@ -118,6 +115,12 @@ namespace Quickjam.Player
             {
                 //Debug.DrawRay(m_manager.transform.position, m_manager.transform.up, Color.cyan);
                 if (Physics.Raycast(m_manager.transform.position, m_manager.transform.right, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
+                {
+                    Debug.Log(hit.collider.name);
+                    m_manager.StartCoroutine(DelayMoveForParkourTest(hit.point));
+                }
+
+                if (Physics.Raycast(m_manager.transform.position, -m_manager.transform.right, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
                 {
                     Debug.Log(hit.collider.name);
                     m_manager.StartCoroutine(DelayMoveForParkourTest(hit.point));
@@ -133,11 +136,11 @@ namespace Quickjam.Player
 
                 if (m_manager.m_modifiers.moveVector.x > 0)
                 {
-                    m_manager.transform.rotation = Quaternion.Euler(Vector3.zero);
+                    m_manager.m_playerAnimator.transform.localScale = new Vector3(1, 1, -1);
                 }
                 else if (m_manager.m_modifiers.moveVector.x < 0)
                 {
-                    m_manager.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    m_manager.m_playerAnimator.transform.localScale = new Vector3(1, 1, 1);
                 }
             }
             else
@@ -163,7 +166,7 @@ namespace Quickjam.Player
 
         public void StateSlashInputListener(InputAction.CallbackContext ctx)
         {
-            
+            m_manager.SetState(new PlayerAttack(m_manager, "Slash"));
         }
         #endregion
 
