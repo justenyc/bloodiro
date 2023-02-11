@@ -10,37 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aad4772b21177ec4abb645d5e52805ce, type: 3}
-  m_Name: Thrust
+  m_Name: Dodge
   m_EditorClassIdentifier: 
-  id: Thrust
+  id: Dodge
   debugBreak: 0
-  cancelPriority: 2
-  lengthInFrames: 12
-  activeStart: 8
-  activeEnd: 12
-  animationClip: {fileID: 8822428125724367020, guid: e77924d47a8996c45b1785b875304793, type: 3}
-  behaviour: 0
+  cancelPriority: 4
+  lengthInFrames: 30
+  activeStart: 0
+  activeEnd: 0
+  animationClip: {fileID: -6832607720685793652, guid: e77924d47a8996c45b1785b875304793, type: 3}
+  behaviour: 1
   moveBehaviourProperties:
     useGravity: 1
     gravity: -9.81
-    newMoveSpeed: 1
+    newMoveSpeed: 10
     moveSpeedCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.86
+        outSlope: -0.86
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
+        value: 0.14
+        inSlope: -0.86
+        outSlope: -0.86
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334

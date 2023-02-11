@@ -13,8 +13,20 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: 
   id: Slash
+  debugBreak: 0
   cancelPriority: 2
   lengthInFrames: 35
   activeStart: 22
   activeEnd: 30
   animationClip: {fileID: 4754486288418409657, guid: e77924d47a8996c45b1785b875304793, type: 3}
+  behaviour: 0
+  moveBehaviourProperties:
+    useGravity: 1
+    gravity: -9.81
+    newMoveSpeed: 1
+    moveSpeedCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

@@ -17,6 +17,8 @@ namespace Quickjam.Player
         public Modifiers m_modifiers;
         public List<AttackData> m_attackDataList;
         public Dictionary<string, AttackData> m_attackDataDict { get; private set; } = new Dictionary<string, AttackData>();
+        int frame;
+        float time;
 
         PlayerState m_currentState;
 
@@ -144,6 +146,7 @@ namespace Quickjam.Player
             if (ctx.performed)
             {
                 Debug.Log("OnThrust() called");
+                m_currentState.GetType().GetMethod("StateThrustInputListener")?.Invoke(m_currentState, new object[] { ctx });
             }
         }
 
@@ -152,6 +155,7 @@ namespace Quickjam.Player
             if (ctx.performed)
             {
                 Debug.Log("OnDodge() called");
+                m_currentState.GetType().GetMethod("StateDodgeInputListener")?.Invoke(m_currentState, new object[] { ctx });
             }
         }
 

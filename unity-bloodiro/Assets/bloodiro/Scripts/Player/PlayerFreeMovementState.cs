@@ -168,6 +168,16 @@ namespace Quickjam.Player
         {
             m_manager.SetState(new PlayerAttack(m_manager, "Slash"));
         }
+
+        public void StateThrustInputListener(InputAction.CallbackContext ctx)
+        {
+            m_manager.SetState(new PlayerAttack(m_manager, "Thrust"));
+        }
+
+        public void StateDodgeInputListener(InputAction.CallbackContext ctx)
+        {
+            m_manager.SetState(new PlayerAttack(m_manager, "Dodge"));
+        }
         #endregion
 
         #region Temp Debug

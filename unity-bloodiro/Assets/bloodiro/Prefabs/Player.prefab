@@ -220,6 +220,7 @@ MonoBehaviour:
   m_attackDataList:
   - {fileID: 11400000, guid: 6883eb68223a39e408e65caa9fc1499c, type: 2}
   - {fileID: 11400000, guid: e5da21a07580e3e44a3548be8cfcca33, type: 2}
+  - {fileID: 11400000, guid: 4493f7f6e6f55dd4eb6e49aa19615c39, type: 2}
 --- !u!114 &5510075202750894288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +282,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8b21f002-7ecd-4fba-88ee-183e3a97bf29
     m_ActionName: Standard/Slash[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5510075202750894291}
+        m_TargetAssemblyTypeName: Quickjam.Player.PlayerController, Assembly-CSharp
+        m_MethodName: ThrustInputListener
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 13b619b2-4295-49f2-a7bf-5d381b3e0c50
+    m_ActionName: Standard/Thrust[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5510075202750894291}
+        m_TargetAssemblyTypeName: Quickjam.Player.PlayerController, Assembly-CSharp
+        m_MethodName: DodgeInputListener
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bf2dd1f3-a011-4d1b-98a9-f9abbb69595d
+    m_ActionName: Standard/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: Standard
