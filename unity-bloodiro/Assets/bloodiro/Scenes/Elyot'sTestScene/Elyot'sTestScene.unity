@@ -410,15 +410,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8114596964045949540, guid: 56c4d3398bb9fd341a09d9d9c7d54077, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.34
+      value: -40.83
       objectReference: {fileID: 0}
     - target: {fileID: 8114596964045949540, guid: 56c4d3398bb9fd341a09d9d9c7d54077, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.1809142
+      value: 2.83
       objectReference: {fileID: 0}
     - target: {fileID: 8114596964045949540, guid: 56c4d3398bb9fd341a09d9d9c7d54077, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.12
+      value: -4.2
       objectReference: {fileID: 0}
     - target: {fileID: 8114596964045949540, guid: 56c4d3398bb9fd341a09d9d9c7d54077, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3734,13 +3734,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordsMan
       objectReference: {fileID: 0}
+    - target: {fileID: 5974651265992605438, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5974651265992605439, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.14100039
+      value: 0.14100029
       objectReference: {fileID: 0}
     - target: {fileID: 5974651265992605439, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.070999995
+      value: 0.07099929
       objectReference: {fileID: 0}
     - target: {fileID: 6458699557875790048, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
       propertyPath: m_RootOrder
