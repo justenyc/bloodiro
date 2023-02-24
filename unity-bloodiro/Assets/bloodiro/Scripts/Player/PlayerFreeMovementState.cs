@@ -113,16 +113,16 @@ namespace Quickjam.Player
             RaycastHit hit;
             if (m_manager.m_states.grounded)
             {
-                //Debug.DrawRay(m_manager.transform.position, m_manager.transform.up, Color.cyan);
+                //Debug.DrawRay(m_manager.transform.position, m_manager.transform.right * 10, Color.cyan);
                 if (Physics.Raycast(m_manager.transform.position, m_manager.transform.right, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
                 {
-                    Debug.Log(hit.collider.name);
+                    //Debug.Log(hit.collider.name);
                     m_manager.StartCoroutine(DelayMoveForParkourTest(hit.point));
                 }
 
                 if (Physics.Raycast(m_manager.transform.position, -m_manager.transform.right, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
                 {
-                    Debug.Log(hit.collider.name);
+                    //Debug.Log(hit.collider.name);
                     m_manager.StartCoroutine(DelayMoveForParkourTest(hit.point));
                 }
             }

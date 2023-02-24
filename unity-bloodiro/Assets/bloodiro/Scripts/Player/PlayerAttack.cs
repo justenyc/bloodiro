@@ -50,6 +50,10 @@ namespace Quickjam.Player
 
         public override void StateFixedUpdate()
         {
+            if(m_manager.debugBreak)
+            {
+                Debug.Break();
+            }
             if (m_currentFrame != m_lengthInFrames)
             {
                 m_currentFrame++;
@@ -71,6 +75,17 @@ namespace Quickjam.Player
         public void StateMoveInputListener(InputAction.CallbackContext ctx)
         {
             m_manager.m_modifiers.moveVector = ctx.ReadValue<Vector2>();
+        }
+
+        void HitboxHandler()
+        {
+            if(m_currentFrame >= m_currentAttackData.activeStart && m_currentFrame < m_currentAttackData.activeEnd)
+            {
+                m_manager.m_hitbox.gameObject.SetActive(true);
+                return;
+            }
+            m_manager.m_hitbox.gameObject.SetActive(false);
+            return;
         }
     }
 }

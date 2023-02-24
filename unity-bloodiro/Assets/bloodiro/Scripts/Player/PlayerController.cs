@@ -10,6 +10,7 @@ namespace Quickjam.Player
         [Header("References")]
         public CharacterController m_characterController;
         public string m_currentStateName;
+        public HitBox m_hitbox;
         public Animator m_playerAnimator;
         public Properties m_properties;
         public PropertyCurves m_propertyCurves;
@@ -17,6 +18,7 @@ namespace Quickjam.Player
         public Modifiers m_modifiers;
         public List<AttackData> m_attackDataList;
         public Dictionary<string, AttackData> m_attackDataDict { get; private set; } = new Dictionary<string, AttackData>();
+        public bool debugBreak = false;
         int frame;
         float time;
 
@@ -118,7 +120,7 @@ namespace Quickjam.Player
         {
             RaycastHit hit;
 
-            if (Physics.SphereCast(transform.position + transform.up, 1, -Vector3.up, out hit, 0.6f))
+            if (Physics.SphereCast(transform.position, 0.25f, -Vector3.up, out hit, 0.6f))
             {
                 m_states.grounded = true;
                 return;
