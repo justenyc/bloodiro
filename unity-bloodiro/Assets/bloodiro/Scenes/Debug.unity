@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &113638176 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7564725590505358104, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
-  m_PrefabInstance: {fileID: 7564725590476257336}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41cd0b3c5d54c9942aad4235b2b9b5fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &136569011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +196,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1fd22173d088e2468f92c609274cd1d, type: 3}
+--- !u!1 &294910583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 37632165971942980, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
+  m_PrefabInstance: {fileID: 7564725590476257336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &294910586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294910583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2ead2c58b03f94cb0ca0034a56a229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _self: {fileID: 1534872642}
 --- !u!1 &436315776
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +778,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1534872642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7564725590773405621, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
+  m_PrefabInstance: {fileID: 7564725590476257336}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ced4149c2db5c41aedbb8c1a2e9301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1845480658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1209,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquidGuy
       objectReference: {fileID: 0}
+    - target: {fileID: 7564725590773405618, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7564725590773405620, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1235,13 +1257,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7564725590773405621, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7564725590773405621, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}
-      propertyPath: _aggroDetector
-      value: 
-      objectReference: {fileID: 113638176}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 924a012ffe1907c4b92b42f2593f05c9, type: 3}

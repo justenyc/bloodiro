@@ -208,6 +208,7 @@ MonoBehaviour:
   _characterController: {fileID: 7564725590773405619}
   _aggroDetector: {fileID: 7564725590505358104}
   _modelPrefab: {fileID: 37632165971942980}
+  _animatorController: {fileID: 884072840690656019}
   moveSpeed: 1
   _targetPosition: {x: 1, y: 0, z: 0}
   _stalkStateProperties:
@@ -716,5 +717,10 @@ GameObject:
 --- !u!4 &850726153798976766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7148671891190869098, guid: 3399de2efdcaacc4386b2196b05ef319, type: 3}
+  m_PrefabInstance: {fileID: 7564725590349244564}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &884072840690656019 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7259686363765476231, guid: 3399de2efdcaacc4386b2196b05ef319, type: 3}
   m_PrefabInstance: {fileID: 7564725590349244564}
   m_PrefabAsset: {fileID: 0}

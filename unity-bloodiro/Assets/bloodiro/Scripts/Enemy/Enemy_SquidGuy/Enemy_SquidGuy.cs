@@ -11,14 +11,24 @@ namespace Quickjam.Enemy.Squidguy
         [System.Serializable]
         public class StalkStateProperties
         {
+            [Tooltip("How long it takes for the Squid Guy to de-aggro")]
             public float exitTime;
         }
 
         [System.Serializable]
         public class PatrolStateProperties
         {
+            [Tooltip("How long the Squid Guy waits before determining a new position after it reaches a patrol target position")] 
+            public float newPositionDelay = 1;
+            [Tooltip("How far left and down a new patrol position can be generated")]
             public Vector2 minRange;
+            [Tooltip("How far right and up a new patrol position can be generated")]
             public Vector2 maxRange;
+        }
+
+        public class AttackStateProperties
+        {
+            public float delayUntilNextAttack;
         }
 
         Enemy_SquidGuy_State _currentState;
@@ -92,9 +102,17 @@ namespace Quickjam.Enemy.Squidguy
             _modelPrefab.transform.localScale = new Vector3(1, 1, 1);
         }
 
+        public void ResetState()
+        {
+            Debug.Log("ResetState()");
+            _currentState = new Enemy_SquidGuy_Patrol(this, transform.position);
+        }
+
         public void SetState(Enemy_SquidGuy_State newState)
         {
             _currentState = newState;
+            if(debugBreak)
+                Debug.Break();
         }
 
         public void SetTargetPosition(Vector3 targetPos)

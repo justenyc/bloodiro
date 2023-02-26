@@ -18,7 +18,7 @@ namespace Quickjam.Enemy.Squidguy
             _self._currentStateName = "Patrol";
             _self._move = true;
             _patrolRoot = patrolRoot;
-            Debug.Log($"patrolRoot: {patrolRoot}");
+            //Debug.Log($"patrolRoot: {patrolRoot}");
             _self.SetTargetPosition(patrolRoot);
         }
 
@@ -26,42 +26,32 @@ namespace Quickjam.Enemy.Squidguy
         {
             if (_self.debugBreak)
             {
-                Debug.Break();
+                //Debug.Break();
             }
 
             if(Mathf.Abs(_self._targetPosition.x - _self.transform.position.x) < 0.1f)
             {
                 if (_waiting == false)
-                    GenerateRandomPosition();
+                    _self.StartCoroutine(GenerateRandomPosition());
             }
         }
 
-        public override void AggroDetectorTriggerEnter(PlayerController playerController)
+        public override void AggroDetectorTriggerStay(PlayerController playerController)
         {
+            _self.StopAllCoroutines();
             _self.SetState(new Enemy_SquidGuy_Stalk(_self));
         }
 
-        async Task<Vector3> GenerateRandomPosition()
+        IEnumerator GenerateRandomPosition()
         {
-            if(_self.debugBreak)
-                Debug.Break();
-
             _waiting = true;
             Vector3 newTarget = new Vector3(
                 _patrolRoot.x + Random.Range(_self._patrolStateProperties.minRange.x, _self._patrolStateProperties.maxRange.x),
                 _self.transform.position.y,
                 0);
-            
-            await DelayAction(1000);
-            
+            yield return new WaitForSeconds(_self._patrolStateProperties.newPositionDelay);
             _self.SetTargetPosition(newTarget);
             _waiting = false;
-            return newTarget;
-        }
-
-        Task DelayAction(int time)
-        {
-            return Task.Delay(time);
         }
     }
 }
