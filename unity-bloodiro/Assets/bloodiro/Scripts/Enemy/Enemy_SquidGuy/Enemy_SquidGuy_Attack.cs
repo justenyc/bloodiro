@@ -18,7 +18,7 @@ namespace Quickjam.Enemy.Squidguy
 
             _self._currentStateName = "Attack";
             _self.SetTargetPosition(_self.transform.position);
-            _selfAnimator.SetTrigger(attackName);
+            _selfAnimator.SetTrigger(_attackName);
         }
 
         string RandomAttack()

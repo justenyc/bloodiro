@@ -26,9 +26,10 @@ namespace Quickjam.Enemy.Squidguy
             public Vector2 maxRange;
         }
 
+        [System.Serializable]
         public class AttackStateProperties
         {
-            public float delayUntilNextAttack;
+            public float delayUntilNextAttack = 0;
         }
 
         Enemy_SquidGuy_State _currentState;
@@ -47,6 +48,7 @@ namespace Quickjam.Enemy.Squidguy
 
         public StalkStateProperties _stalkStateProperties;
         public PatrolStateProperties _patrolStateProperties;
+        public AttackStateProperties _attackStateProperties;
 
         [Header("Debug")]
         public bool _move = false;

@@ -41,7 +41,7 @@ namespace Quickjam.Enemy.Squidguy
             _self.SetTargetPosition(new Vector3(playerPosition.x, _self.transform.position.y, 0));
             if(Vector3.Distance(_self.transform.position, playerPosition) < 3f)
             {
-                _self.SetState(new Enemy_SquidGuy_Attack(_self, "Bite"));
+                _self.SetState(new Enemy_SquidGuy_Attack(_self));
             }
             countdown = false;
         }

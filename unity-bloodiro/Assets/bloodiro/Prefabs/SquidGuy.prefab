@@ -214,8 +214,11 @@ MonoBehaviour:
   _stalkStateProperties:
     exitTime: 2
   _patrolStateProperties:
+    newPositionDelay: 1
     minRange: {x: -2, y: 0}
     maxRange: {x: 2, y: 0}
+  _attackStateProperties:
+    delayUntilNextAttack: 1
   _move: 0
   debugBreak: 0
   moveVector: {x: 0, y: 0, z: 0}

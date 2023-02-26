@@ -14,9 +14,9 @@ namespace Quickjam.Enemy.Squidguy
             _self = _self ?? GetComponentInParent<Enemy_SquidGuy>() ?? null;
         }
 
-        public async void ResetState()
+        public async void ResetStateFromAttack()
         {
-            await Delay(1000);
+            await Delay((int)_self._attackStateProperties.delayUntilNextAttack * 1000);
             _self.SetState(new Enemy_SquidGuy_Patrol(_self, _self.transform.position));
         }
 

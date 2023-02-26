@@ -11,7 +11,7 @@ namespace Quickjam.Player
 
         public PlayerLadderState(PlayerController manager)
         {
-            m_stateName = "On Ladder";
+            m_stateName = "LadderState";
             StateStart(manager);
         }
 
@@ -49,8 +49,10 @@ namespace Quickjam.Player
             RaycastHit hit;
             if (m_manager.m_states.nearLadder)
             {
-                if (Physics.Raycast(m_manager.transform.position, m_manager.transform.up, out hit, m_manager.m_properties.parkourDistance, m_manager.m_properties.parkourLayers))
+                Debug.DrawRay(m_manager.transform.position, m_manager.transform.up * m_manager.m_properties.parkourDistance * 3, Color.cyan);
+                if (Physics.Raycast(m_manager.transform.position, m_manager.transform.up, out hit, m_manager.m_properties.parkourDistance * 3, m_manager.m_properties.parkourLayers))
                 {
+                    Debug.Log("Ladder check");
                     m_manager.StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
                 }
             }
