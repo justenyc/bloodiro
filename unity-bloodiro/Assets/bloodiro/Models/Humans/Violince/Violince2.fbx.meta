@@ -24,11 +24,52 @@ ModelImporter:
   - first:
       74: -499111066430895464
     second: ViolinceArm|Walking
+  - first:
+      74: -4127656243609981406
+    second: ViolinceArm.001|Idle
+  - first:
+      74: 6255215447789042983
+    second: ViolinceArm.001|Idle.001
+  - first:
+      74: 5051801646956653243
+    second: ViolinceArm.001|Jumping
+  - first:
+      74: -1092773074873506776
+    second: ViolinceArm.001|Jumping Air
+  - first:
+      74: 8886726650256932174
+    second: ViolinceArm.001|Jumping Air.001
+  - first:
+      74: 8550145825696510293
+    second: ViolinceArm.001|Jumping Land
+  - first:
+      74: 3930890599998007858
+    second: ViolinceArm.001|Jumping.001
+  - first:
+      74: 5018685911579694778
+    second: ViolinceArm.001|Playing
+  - first:
+      74: 5635595286151306843
+    second: ViolinceArm.001|Playing Movement
+  - first:
+      74: 4541549377223152247
+    second: ViolinceArm.001|Playing.001
+  - first:
+      74: 3968385315299420919
+    second: ViolinceArm.001|Walking
+  - first:
+      74: 1060055857069270674
+    second: ViolinceArm.001|Walking.001
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Violince.001
+    second: {fileID: 2100000, guid: caea32a8e9442954bbe9735dde628b50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Violince.002
     second: {fileID: 2100000, guid: caea32a8e9442954bbe9735dde628b50, type: 2}
   materials:
     materialImportMode: 2
