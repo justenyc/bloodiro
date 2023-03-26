@@ -154,7 +154,6 @@ namespace Quickjam.Player
         public void StateMoveInputListener(InputAction.CallbackContext ctx)
         {
             m_manager.m_modifiers.moveVector = ctx.ReadValue<Vector2>();
-            
             if (m_manager.m_states.nearLadder && m_manager.m_modifiers.moveVector.y != 0)
             {
                 m_manager.SetState(new PlayerLadderState(m_manager));

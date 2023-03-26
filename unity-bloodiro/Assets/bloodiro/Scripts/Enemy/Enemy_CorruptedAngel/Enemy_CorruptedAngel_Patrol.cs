@@ -1,35 +1,27 @@
-using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Quickjam.Player;
 
-namespace Quickjam.Enemy.Hellvark
+namespace Quickjam.Enemy.CorruptedAngel
 {
-    public class Enemy_Hellvark_Patrol : Enemy_Hellvark_State
+    public class Enemy_CorruptedAngel_Patrol : Enemy_CorruptedAngel_State
     {
-        Enemy_Hellvark _self;
+        Enemy_CorruptedAngel _self;
         Vector3 _patrolRoot;
         bool _waiting;
 
-        public Enemy_Hellvark_Patrol(Enemy_Hellvark self, Vector3 patrolRoot)
+        public Enemy_CorruptedAngel_Patrol(Enemy_CorruptedAngel self, Vector3 patrolRoot)
         {
             _self = self;
             _self._currentStateName = "Patrol";
             _self._move = true;
             _patrolRoot = patrolRoot;
-            //Debug.Log($"patrolRoot: {patrolRoot}");
-            _self.SetTargetPosition(patrolRoot);
         }
 
         public override void StateFixedUpdate()
         {
-            if (_self.debugBreak)
-            {
-                //Debug.Break();
-            }
-
-            if(Mathf.Abs(_self._targetPosition.x - _self.transform.position.x) < 0.1f)
+            if (Mathf.Abs(_self._targetPosition.x - _self.transform.position.x) < 0.1f)
             {
                 if (_waiting == false)
                     _self.StartCoroutine(GenerateRandomPosition());
@@ -39,7 +31,7 @@ namespace Quickjam.Enemy.Hellvark
         public override void AggroDetectorTriggerStay(PlayerController playerController)
         {
             _self.StopAllCoroutines();
-            _self.SetState(new Enemy_Hellvark_Stalk(_self));
+            _self.SetState(new Enemy_CorruptedAngel_Aggro(_self));
         }
 
         IEnumerator GenerateRandomPosition()

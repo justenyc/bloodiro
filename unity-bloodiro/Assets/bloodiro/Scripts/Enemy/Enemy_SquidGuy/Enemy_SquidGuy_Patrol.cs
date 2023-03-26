@@ -24,11 +24,6 @@ namespace Quickjam.Enemy.Squidguy
 
         public override void StateFixedUpdate()
         {
-            if (_self.debugBreak)
-            {
-                //Debug.Break();
-            }
-
             if(Mathf.Abs(_self._targetPosition.x - _self.transform.position.x) < 0.1f)
             {
                 if (_waiting == false)

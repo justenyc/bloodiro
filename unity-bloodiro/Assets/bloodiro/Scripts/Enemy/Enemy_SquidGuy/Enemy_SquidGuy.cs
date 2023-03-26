@@ -8,6 +8,7 @@ namespace Quickjam.Enemy.Squidguy
     [RequireComponent(typeof(CharacterController))]
     public class Enemy_SquidGuy : Enemy
     {
+        #region State Property Classes
         [System.Serializable]
         public class StalkStateProperties
         {
@@ -31,6 +32,7 @@ namespace Quickjam.Enemy.Squidguy
         {
             public float delayUntilNextAttack = 0;
         }
+        #endregion
 
         Enemy_SquidGuy_State _currentState;
 

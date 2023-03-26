@@ -52,7 +52,6 @@ namespace Quickjam.Player
                 Debug.DrawRay(m_manager.transform.position, m_manager.transform.up * m_manager.m_properties.parkourDistance * 3, Color.cyan);
                 if (Physics.Raycast(m_manager.transform.position, m_manager.transform.up, out hit, m_manager.m_properties.parkourDistance * 3, m_manager.m_properties.parkourLayers))
                 {
-                    Debug.Log("Ladder check");
                     m_manager.StartCoroutine(DelayMoveForParkourTest(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)));
                 }
             }

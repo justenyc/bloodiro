@@ -12,6 +12,7 @@ namespace Quickjam.Player
         public string m_currentStateName;
         public HitBox m_hitbox;
         public Animator m_playerAnimator;
+        public Transform m_headPosition;
         public Properties m_properties;
         public PropertyCurves m_propertyCurves;
         public States m_states;
@@ -92,7 +93,12 @@ namespace Quickjam.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            m_states.nearLadder = true;
+            switch(other.tag)
+            {
+                case ("Ladder"):
+                    m_states.nearLadder = true;
+                    break;
+            }
         }
 
         private void OnTriggerExit(Collider other)

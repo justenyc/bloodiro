@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a33d061326ede479dbb2295c7e5b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 1172120594297259726}
   strength: 10
 --- !u!212 &5510075202750894293
 SpriteRenderer:
@@ -151,6 +151,7 @@ MonoBehaviour:
   m_currentStateName: 
   m_hitbox: {fileID: 1172120594297259726}
   m_playerAnimator: {fileID: 220805083506629548}
+  m_headPosition: {fileID: 2162166311507782067}
   m_properties:
     applyGravity: 1
     gravity: -9.81
@@ -742,6 +743,11 @@ Transform:
 --- !u!95 &220805083506629548 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6785605749630686985, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
+  m_PrefabInstance: {fileID: 6718004466271292581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2162166311507782067 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4844373164763538710, guid: 41810821e7fefa44391a712a5a6c99b8, type: 3}
   m_PrefabInstance: {fileID: 6718004466271292581}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6865586313534925831 stripped
