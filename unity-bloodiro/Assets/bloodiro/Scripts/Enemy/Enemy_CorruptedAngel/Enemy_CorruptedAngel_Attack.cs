@@ -25,7 +25,6 @@ namespace Quickjam.Enemy.CorruptedAngel
 
         public Enemy_CorruptedAngel_Attack(Enemy_CorruptedAngel self, string attackOverride = "")
         {
-            string attack = attackOverride == "" ? RandomAttack() : attackOverride;
             _self = self;
             _self._currentStateName = "Attack";
             _charCon = _self.GetCharacterController();
@@ -121,16 +120,6 @@ namespace Quickjam.Enemy.CorruptedAngel
             _self.SetTargetPosition(new Vector3(curTarget.x, curTarget.y + _self._attackStateProperties.flightHeight, curTarget.z));
             yield return new WaitForSeconds(flightTime);
             _self.SetTargetPosition(curTarget);
-        }
-
-        string RandomAttack()
-        {
-            float rng = Random.Range(0, 11);
-            if (rng <= 5)
-            {
-                return "GroundThrow";
-            }
-            return "JumpThrow";
         }
     }
 }

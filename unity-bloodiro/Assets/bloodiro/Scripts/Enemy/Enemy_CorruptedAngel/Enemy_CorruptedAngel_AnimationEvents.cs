@@ -20,7 +20,7 @@ namespace Quickjam.Enemy.CorruptedAngel
             Enemy_CorruptedAngel_Projectile newProjScript = newProj.GetComponent<Enemy_CorruptedAngel_Projectile>();
             Vector3 modelRot = _self.GetModel().transform.localRotation.eulerAngles;
             Vector3 projStartDir = modelRot.y > 0 ? Vector3.up * 270 : Vector3.up * 90;
-            newProjScript.Initialize(projStartDir);
+            newProjScript.Initialize(projStartDir, this.transform.parent.gameObject, _self._attackStateProperties.projectileDamage);
         }
     }
 }

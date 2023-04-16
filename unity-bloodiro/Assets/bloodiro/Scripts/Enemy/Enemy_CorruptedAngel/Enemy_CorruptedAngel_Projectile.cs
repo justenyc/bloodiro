@@ -5,12 +5,15 @@ using Quickjam.Player;
 
 namespace Quickjam.Enemy.CorruptedAngel
 {
+    //NOTE: Instantiated by animation events
     public class Enemy_CorruptedAngel_Projectile : MonoBehaviour
     {
         PlayerController _playerTarget;
         [SerializeField] float _moveSpeed = 1;
         [SerializeField] float _trackSpeed = 1;
         [SerializeField] float _lifeTime = 10f;
+
+        float damage = 5;
         bool track = true;
         
         // Start is called before the first frame update
@@ -20,10 +23,12 @@ namespace Quickjam.Enemy.CorruptedAngel
             Destroy(this.gameObject, _lifeTime);
         }
 
-        public void Initialize(Vector3 startingDirection)
+        public void Initialize(Vector3 startingDirection, GameObject originObject, float damageValue = 5)
         {
+            damage = damageValue;
             transform.rotation = Quaternion.Euler(startingDirection);
             track = true;
+            this.GetComponent<HitBox>().Initialize(originObject, damage);
         }
 
         // Update is called once per frame

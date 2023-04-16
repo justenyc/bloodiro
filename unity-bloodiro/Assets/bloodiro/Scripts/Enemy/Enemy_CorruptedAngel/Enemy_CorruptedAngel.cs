@@ -58,6 +58,7 @@ namespace Quickjam.Enemy.CorruptedAngel
         public class AttackStateProperties
         {
             public GameObject projectilePrefab;
+            public float projectileDamage = 5;
 
             [Space(10)]
             [Tooltip("How long it takes for the Corrupted Angel to de-aggro")]
