@@ -17,21 +17,38 @@ namespace Quickjam.Enemy.CorruptedAngel
             _self._currentStateName = "Patrol";
             _self._move = true;
             _patrolRoot = patrolRoot;
+            AnimationCheck();
         }
 
         public override void StateFixedUpdate()
         {
             if (Mathf.Abs(_self._targetPosition.x - _self.transform.position.x) < 0.1f)
             {
+                _self.GetAnimator().SetFloat("DistanceToTarget", 0);
                 if (_waiting == false)
+                {
                     _self.StartCoroutine(GenerateRandomPosition());
+                }
             }
+            _self.Move();
+            _self.CalculateRotation();
         }
 
         public override void AggroDetectorTriggerStay(PlayerController playerController)
         {
-            _self.StopAllCoroutines();
-            _self.SetState(new Enemy_CorruptedAngel_Aggro(_self));
+            Vector3 playerPosition = new Vector3(playerController.m_headPosition.position.x, playerController.m_headPosition.position.y, 0);
+            Vector3 mySightOrigin = new Vector3(_self._aggroStateProperties.characterEyePosition.position.x, _self._aggroStateProperties.characterEyePosition.position.y, 0);
+
+            RaycastHit hit;
+            if (Physics.Raycast(mySightOrigin, playerPosition - mySightOrigin, out hit, 1000, _self.GetSightLayerMask()))
+            {
+                //Debug.Log(hit.collider.name);
+                if (hit.collider.tag.ToLower() == "player")
+                {
+                    _self.StopAllCoroutines();
+                    _self.SetState(new Enemy_CorruptedAngel_Attack(_self, "JumpThrow"));
+                }
+            }
         }
 
         IEnumerator GenerateRandomPosition()
@@ -43,7 +60,14 @@ namespace Quickjam.Enemy.CorruptedAngel
                 0);
             yield return new WaitForSeconds(_self._patrolStateProperties.newPositionDelay);
             _self.SetTargetPosition(newTarget);
+            _self.GetAnimator().SetFloat("DistanceToTarget", Vector3.Distance(_self._targetPosition, _self.transform.position));
             _waiting = false;
+        }
+
+        void AnimationCheck()
+        {
+            _self.ResetAnimationParameters();
+            _self.GetAnimator().SetBool("IdleReturn", true);
         }
     }
 }

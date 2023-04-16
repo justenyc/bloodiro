@@ -16,10 +16,11 @@ namespace Quickjam.Enemy.CorruptedAngel
 
         public void ThrowProjectile()
         {
-            GameObject newProj = Instantiate(_self._attackStateProperties.projectilePrefab);
-            PlayerController player = FindObjectOfType<PlayerController>();
+            GameObject newProj = Instantiate(_self._attackStateProperties.projectilePrefab, _self.transform.position, Quaternion.identity);
             Enemy_CorruptedAngel_Projectile newProjScript = newProj.GetComponent<Enemy_CorruptedAngel_Projectile>();
-            newProjScript.Initialize(player.transform.position - transform.parent.transform.position);
+            Vector3 modelRot = _self.GetModel().transform.localRotation.eulerAngles;
+            Vector3 projStartDir = modelRot.y > 0 ? Vector3.up * 270 : Vector3.up * 90;
+            newProjScript.Initialize(projStartDir);
         }
     }
 }

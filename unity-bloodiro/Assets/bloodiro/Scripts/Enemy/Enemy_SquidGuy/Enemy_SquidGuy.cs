@@ -25,6 +25,16 @@ namespace Quickjam.Enemy.Squidguy
             public Vector2 minRange;
             [Tooltip("How far right and up a new patrol position can be generated")]
             public Vector2 maxRange;
+            public LayerMask sightRaycastLayerMask;
+        }
+
+        [System.Serializable]
+        public class AggroStateProperties
+        {
+            [Tooltip("How long it takes for the Corrupted Angel to de-aggro")]
+            public float exitTime;
+            [Tooltip("The origin of the character's line of sight")]
+            public Transform characterEyePosition;
         }
 
         [System.Serializable]
@@ -50,6 +60,7 @@ namespace Quickjam.Enemy.Squidguy
 
         public StalkStateProperties _stalkStateProperties;
         public PatrolStateProperties _patrolStateProperties;
+        public AggroStateProperties _aggroStateProperties;
         public AttackStateProperties _attackStateProperties;
 
         [Header("Debug")]

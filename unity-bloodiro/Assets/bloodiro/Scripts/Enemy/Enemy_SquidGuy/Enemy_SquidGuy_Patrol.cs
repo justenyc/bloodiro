@@ -33,8 +33,18 @@ namespace Quickjam.Enemy.Squidguy
 
         public override void AggroDetectorTriggerStay(PlayerController playerController)
         {
-            _self.StopAllCoroutines();
-            _self.SetState(new Enemy_SquidGuy_Stalk(_self));
+            Vector3 playerPosition = new Vector3(playerController.m_headPosition.position.x, playerController.m_headPosition.position.y, 0);
+            Vector3 mySightOrigin = new Vector3(_self._aggroStateProperties.characterEyePosition.position.x, _self._aggroStateProperties.characterEyePosition.position.y, 0);
+
+            RaycastHit hit;
+            if (Physics.Raycast(mySightOrigin, playerPosition - mySightOrigin, out hit, _self._patrolStateProperties.sightRaycastLayerMask, 1000))
+            {
+                if(hit.collider.tag == "Player")
+                {
+                    _self.StopAllCoroutines();
+                    _self.SetState(new Enemy_SquidGuy_Stalk(_self));
+                }                
+            }
         }
 
         IEnumerator GenerateRandomPosition()

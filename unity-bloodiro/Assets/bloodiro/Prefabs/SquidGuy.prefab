@@ -230,6 +230,9 @@ MonoBehaviour:
     newPositionDelay: 1
     minRange: {x: -2, y: 0}
     maxRange: {x: 2, y: 0}
+  _aggroStateProperties:
+    exitTime: 0
+    characterEyePosition: {fileID: 7957812893311467443}
   _attackStateProperties:
     delayUntilNextAttack: 1
   _move: 0
@@ -826,5 +829,10 @@ Transform:
 --- !u!95 &884072840690656019 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7259686363765476231, guid: 3399de2efdcaacc4386b2196b05ef319, type: 3}
+  m_PrefabInstance: {fileID: 7564725590349244564}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7957812893311467443 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 474172576806508327, guid: 3399de2efdcaacc4386b2196b05ef319, type: 3}
   m_PrefabInstance: {fileID: 7564725590349244564}
   m_PrefabAsset: {fileID: 0}

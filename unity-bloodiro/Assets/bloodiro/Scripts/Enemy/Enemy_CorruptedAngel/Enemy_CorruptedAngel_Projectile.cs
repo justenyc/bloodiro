@@ -40,7 +40,7 @@ namespace Quickjam.Enemy.CorruptedAngel
                 Vector3 modifiedSelf = new Vector3(transform.position.x, _playerTarget.transform.position.y, transform.position.z);
                 Vector3 dirFromSelfToTarget = (modifiedSelf - _playerTarget.transform.position).normalized;
                 float dot = Vector3.Dot(transform.forward, dirFromSelfToTarget);
-                Debug.Log(dot);
+
                 if (dot > 0)
                 {
                     track = false;
