@@ -177,6 +177,11 @@ namespace Quickjam.Player
         {
             m_manager.SetState(new PlayerAttack(m_manager, "Dodge"));
         }
+
+        public void StateParryInputListener(InputAction.CallbackContext ctx)
+        {
+            m_manager.SetState(new PlayerAttack(m_manager, "Parry"));
+        }
         #endregion
 
         #region Temp Debug

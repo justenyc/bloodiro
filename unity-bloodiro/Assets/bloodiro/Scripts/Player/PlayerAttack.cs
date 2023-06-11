@@ -45,15 +45,12 @@ namespace Quickjam.Player
             {
                 m_lengthInFrames = m_currentAttackData.lengthInFrames;
                 m_manager.m_playerAnimator.SetTrigger(m_currentAttackData.id);
+                m_manager.m_playerAnimator.SetInteger("CancelPriority", m_currentCancelPriority);
             }
         }
 
         public override void StateFixedUpdate()
         {
-            if(m_manager.debugBreak)
-            {
-                Debug.Break();
-            }
             if (m_currentFrame != m_lengthInFrames)
             {
                 m_currentFrame++;
@@ -72,10 +69,28 @@ namespace Quickjam.Player
             cancel = true;
         }
 
+        #region Input Listeners
         public void StateMoveInputListener(InputAction.CallbackContext ctx)
         {
             m_manager.m_modifiers.moveVector = ctx.ReadValue<Vector2>();
         }
+
+        public void StateDodgeInputListener(InputAction.CallbackContext ctx)
+        {
+            if (m_manager.m_attackDataDict["Dodge"].cancelPriority > m_currentCancelPriority)
+            {
+                m_manager.SetState(new PlayerAttack(m_manager, "Dodge"));
+            }
+        }
+
+        public void StateParryInputListener(InputAction.CallbackContext ctx)
+        {
+            if (m_manager.m_attackDataDict["Parry"].cancelPriority > m_currentCancelPriority)
+            {
+                m_manager.SetState(new PlayerAttack(m_manager, "Parry"));   
+            }
+        }
+        #endregion
 
         void HitboxHandler()
         {

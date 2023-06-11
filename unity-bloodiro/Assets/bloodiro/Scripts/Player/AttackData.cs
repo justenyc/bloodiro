@@ -78,4 +78,9 @@ public class AttackData : ScriptableObject
             return;
         }
     }
+
+    void Parry()
+    {
+
+    }
 }

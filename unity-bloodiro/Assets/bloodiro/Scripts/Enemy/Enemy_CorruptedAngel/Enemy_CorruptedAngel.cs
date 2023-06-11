@@ -13,7 +13,7 @@ namespace Quickjam.Enemy.CorruptedAngel
 
         public bool _move = false;
 
-        [Space(10)]
+        [Header("References")]
         [SerializeField] CharacterController _characterController;
         [SerializeField] AggroDetector _aggroDetector;
         [SerializeField] GameObject _modelPrefab;

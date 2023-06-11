@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
+    [SerializeField] bool _destroyOnHit;
     GameObject _originObject;
     float _damage;
 
@@ -15,10 +16,11 @@ public class HitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Health health = other.GetComponent<Health>();
-        if (health != null && other.gameObject != _originObject)
+        if (other.gameObject != _originObject)
         {
-            health.DealDamage(_damage);
+            Health health = other.GetComponent<Health>();
+            if (health != null) { health.DealDamage(_damage); }
+            if (_destroyOnHit) { Destroy(this.gameObject); }
         }
     }
 }

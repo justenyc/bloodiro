@@ -40,9 +40,20 @@ namespace Quickjam.Enemy.CorruptedAngel
             _flightTimer = _flightFrequency;
 
             Vector3 curTargetPos = _self._targetPosition;
-            _self._targetPosition = new Vector3(curTargetPos.x, _self.transform.position.y + 1, curTargetPos.z);
+            curTargetPos.y = FindGround();
+            _self._targetPosition = new Vector3(curTargetPos.x, curTargetPos.y + 2, curTargetPos.z);
             _self.ResetAnimationParameters();
             _self.GetAnimator().SetBool("Flight", true);
+        }
+
+        float FindGround()
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(_self.transform.position, Vector3.down, out hit, 1000))
+            {
+                return hit.transform.position.y;
+            }
+            return 0;
         }
 
         public override void AggroDetectorTriggerStay(PlayerController playerController)

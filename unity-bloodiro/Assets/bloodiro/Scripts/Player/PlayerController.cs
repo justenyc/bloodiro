@@ -7,18 +7,23 @@ namespace Quickjam.Player
 {
     public class PlayerController : MonoBehaviour
     {
+        public string m_currentStateName;
         [Header("References")]
         public CharacterController m_characterController;
-        public string m_currentStateName;
         public HitBox m_hitbox;
+        public GameObject m_parryBox;
+        public GameObject m_hurtBox;
         public Animator m_playerAnimator;
         public Transform m_headPosition;
+        [Header("Property Containers")]
         public Properties m_properties;
         public PropertyCurves m_propertyCurves;
         public States m_states;
         public Modifiers m_modifiers;
+        [Space(10)]
         public List<AttackData> m_attackDataList;
         public Dictionary<string, AttackData> m_attackDataDict { get; private set; } = new Dictionary<string, AttackData>();
+        [Space(10)]
         public bool debugBreak = false;
         int frame;
         float time;
@@ -188,6 +193,7 @@ namespace Quickjam.Player
             if (ctx.performed)
             {
                 Debug.Log("OnParry() called");
+                m_currentState.GetType().GetMethod("StateParryInputListener")?.Invoke(m_currentState, new object[] { ctx });
             }
         }
 
