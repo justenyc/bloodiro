@@ -62,7 +62,10 @@ ModelImporter:
     second: Run
   - first:
       74: 7869826563158913989
-    second: 'Take off '
+    second: Take off
+  - first:
+      74: -2726535233776123063
+    second: 'WildemanArmature.001|Take off '
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -97,11 +100,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: AttackCombo1
-      takeName: AttackCombo1
+      name: WildemanArmature.001|AttackCombo1
+      takeName: WildemanArmature.001|AttackCombo1
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -126,11 +129,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: AttackCombo2
-      takeName: AttackCombo2
+      name: WildemanArmature.001|AttackCombo2
+      takeName: WildemanArmature.001|AttackCombo2
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -155,11 +158,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: AttackCombo3
-      takeName: AttackCombo3
+      name: WildemanArmature.001|AttackCombo3
+      takeName: WildemanArmature.001|AttackCombo3
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -184,11 +187,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fly
-      takeName: Fly
+      name: WildemanArmature.001|Fly
+      takeName: WildemanArmature.001|Fly
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -213,11 +216,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle
-      takeName: Idle
+      name: WildemanArmature.001|Idle
+      takeName: WildemanArmature.001|Idle
       internalID: 0
-      firstFrame: -1
-      lastFrame: 249
+      firstFrame: 0
+      lastFrame: 250
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -242,11 +245,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Staggered
-      takeName: Staggered
+      name: WildemanArmature.001|Staggered
+      takeName: WildemanArmature.001|Staggered
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -271,11 +274,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Land
-      takeName: Land
+      name: WildemanArmature.001|Land
+      takeName: WildemanArmature.001|Land
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -300,11 +303,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Run
-      takeName: Run
+      name: WildemanArmature.001|Run
+      takeName: WildemanArmature.001|Run
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -329,11 +332,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 'Take off '
-      takeName: 'Take off '
+      name: 'WildemanArmature.001|Take off '
+      takeName: 'WildemanArmature.001|Take off '
       internalID: 0
-      firstFrame: -1
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
