@@ -131,15 +131,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1680150987969301689, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.14100075
+      value: -18.825556
       objectReference: {fileID: 0}
     - target: {fileID: 1680150987969301689, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.07100006
+      value: 1.6141999
       objectReference: {fileID: 0}
     - target: {fileID: 1680150987969301689, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
       propertyPath: m_ConnectedRigidBody
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986212480224290763, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986212480224290763, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
+      propertyPath: m_Intensity
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986212481308811664, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2025151741298660866, guid: fd868b1fd53c96344a6f661a392fb290, type: 3}
       propertyPath: m_RootOrder
